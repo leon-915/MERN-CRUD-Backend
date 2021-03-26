@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Bulletin = require('../models/bulletin');
 
-// Get all bulletins 1234567		
+// Get all bulletins 123456		
 router.get('/', async (req, res) => {
     try {
         const bulletins = await Bulletin.find().sort({ _id : -1 });
