@@ -84,7 +84,7 @@ router.patch('/:id', getBulletin, async (req, res) => {
 router.delete('/:id', getBulletin, async (req, res) => {
     try {
         await res.bulletin.remove();
-        //res.json({ message: 'Success' });
+        res.json({ message: 'Success' });
     } catch(err) {
         res.status(500).json({ message: err.message });
     }
