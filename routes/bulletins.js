@@ -44,8 +44,8 @@ router.get('/:id/downvote', getBulletin, async (req, res) => {
 router.post('/', async (req, res) => {
     const bulletin = new Bulletin({
         title: req.body.title,
-        content: req.body.content,
-        tag: req.body.tag
+        //content: req.body.content,
+        //tag: req.body.tag
     });
 
     try {
