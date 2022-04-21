@@ -42,7 +42,18 @@ router.get('/:id/downvote', getBulletin, async (req, res) => {
 
 // Create one bulletin
 router.post('/', async (req, res) => {
-    
+    const bulletin = new Bulletin({
+        title: req.body.title,
+        //content: req.body.content,
+        //tag: req.body.tag
+    });
+
+    try {
+        const newBulletin = await bulletin.save();
+        res.status(201).json({ message: 'Success' });
+    } catch(err) {
+        res.status(400).json({ message: err.message });
+    }
 });
 
 // Update one bulletin
