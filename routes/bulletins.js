@@ -56,17 +56,31 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Update one bulletin
+router.patch('/:id', getBulletin, async (req, res) => {
+    if(req.body.title != null) {
+        res.bulletin.title = req.body.title;
+    }
 
+    if(req.body.content != null) {
+        res.bulletin.content = req.body.content;
+    }
 
-// Delete one bulletin
-router.delete('/:id', getBulletin, async (req, res) => {
+    if(req.body.tag != null) {
+        res.bulletin.tag = req.body.tag;
+    }
+
+    // res.bulletin.date = Date.now();
+
     try {
-        await res.bulletin.remove();
+        const updatedBulletin = await res.bulletin.save();
         res.json({ message: 'Success' });
     } catch(err) {
-        res.status(500).json({ message: err.message });
+        res.status(404).json({ message: err.message });
     }
 });
+
+
 
 // Get Filtered Bulletins By Tag
 router.post('/filter_and_order', async (req, res) => {
