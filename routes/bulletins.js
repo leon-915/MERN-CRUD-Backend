@@ -80,43 +80,17 @@ router.patch('/:id', getBulletin, async (req, res) => {
     }
 });
 
-
-
-// Get Filtered Bulletins By Tag
-router.post('/filter_and_order', async (req, res) => {
-    const orderBy = req.body.orderBy;
-    const filterBy = req.body.filterBy;
-    let sort = -1;
-    if( req.body.sort == "up" )
-        sort = 1;
-
+// Delete one bulletin
+router.delete('/:id', getBulletin, async (req, res) => {
     try {
-        let bulletins = [];
-        if( filterBy == "all" ) {
-            if( orderBy == "default" )
-                bulletins = await Bulletin.find().sort({ _id : sort });
-            else if( orderBy == "popularity" )
-                bulletins = await Bulletin.find().sort({ upvote : sort });
-            else if( orderBy == "title" )
-                bulletins = await Bulletin.find().sort({ title : sort });
-            else if( orderBy == "date" )
-                bulletins = await Bulletin.find().sort({ date : sort });
-        } else {
-            if( orderBy == "default" )
-                bulletins = await Bulletin.find({ "tag" : req.body.filterBy }).sort({ _id : sort });
-            else if( orderBy == "popularity" )
-                bulletins = await Bulletin.find({ "tag" : req.body.filterBy }).sort({ upvote : sort });
-            else if( orderBy == "title" )
-                bulletins = await Bulletin.find({ "tag" : req.body.filterBy }).sort({ title : sort });
-            else if( orderBy == "date" )
-                bulletins = await Bulletin.find({ "tag" : req.body.filterBy }).sort({ date : sort });
-        }
-        
-        res.json(bulletins);
+        await res.bulletin.remove();
+        res.json({ message: 'Success' });
     } catch(err) {
         res.status(500).json({ message: err.message });
     }
 });
+
+
 
 async function getBulletin(req, res, next) {
     try {
