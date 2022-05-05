@@ -118,19 +118,5 @@ router.post('/filter_and_order', async (req, res) => {
     }
 });
 
-async function getBulletin(req, res, next) {
-    try {
-        bulletin = await Bulletin.findById(req.params.id);
-
-        if(bulletin == null) {
-            return res.status(404).json({ message: 'Cant find bulletin' });
-        }
-    } catch(err) {
-        return res.status(500).json({ message: err.message });
-    }
-
-    res.bulletin = bulletin;
-    next();
-}
 
 module.exports = router
