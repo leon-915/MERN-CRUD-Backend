@@ -2,15 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Bulletin = require('../models/bulletin');
 
-// Get all bulletins 
-router.get('/', async (req, res) => {
-    try {
-        const bulletins = await Bulletin.find().sort({ _id : -1 });
-        res.json(bulletins);
-    } catch(err) {
-        res.status(500).json({ message: err.message });
-    }
-});
+
 
 // Get one bulletin
 router.get('/:id', getBulletin, (req, res) => {
@@ -118,5 +110,19 @@ router.post('/filter_and_order', async (req, res) => {
     }
 });
 
+async function getBulletin(req, res, next) {
+    try {
+        bulletin = await Bulletin.findById(req.params.id);
+
+        if(bulletin == null) {
+            return res.status(404).json({ message: 'Cant find bulletin' });
+        }
+    } catch(err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+    res.bulletin = bulletin;
+    next();
+}
 
 module.exports = router
