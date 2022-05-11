@@ -2,12 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Bulletin = require('../models/bulletin');
 
-
-
-// Get one bulletin
-router.get('/:id', getBulletin, (req, res) => {
-    res.json(res.bulletin);
+// Get all bulletins 
+router.get('/', async (req, res) => {
+    try {
+        const bulletins = await Bulletin.find().sort({ _id : -1 });
+        res.json(bulletins);
+    } catch(err) {
+        res.status(500).json({ message: err.message });
+    }
 });
+
+
 
 // Get one bulletin
 router.get('/:id/upvote', getBulletin, async (req, res) => {
