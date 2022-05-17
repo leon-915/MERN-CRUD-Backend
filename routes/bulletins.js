@@ -12,19 +12,12 @@ router.get('/', async (req, res) => {
     }
 });
 
-
-
 // Get one bulletin
-router.get('/:id/upvote', getBulletin, async (req, res) => {
-    res.bulletin.upvote = 1;
-    res.bulletin.downvote = 0;
-    try {
-        await res.bulletin.save();
-        res.json(res.bulletin);
-    } catch(err) {
-        res.status(404).json({ message: err.message });
-    }
+router.get('/:id', getBulletin, (req, res) => {
+    res.json(res.bulletin);
 });
+
+
 
 router.get('/:id/downvote', getBulletin, async (req, res) => {
     res.bulletin.upvote = 0;
